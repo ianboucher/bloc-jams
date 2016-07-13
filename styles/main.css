@@ -58,10 +58,13 @@ body {
     color: rgb(233, 50, 117);
 }
 
-
 .container {
     margin: 0 auto; /* as only 2 args given, auto determines L & R margin size here */
     max-width: 64rem;
+}
+
+.container.narrow {
+    max-width: 56rem;
 }
 
 .clearfix::before,
