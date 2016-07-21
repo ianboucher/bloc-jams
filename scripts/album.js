@@ -34,6 +34,23 @@ var albumMarconi =
     ]
 };
 
+var albumFake = 
+{
+    title: 'The Fake Album',
+    artist: 'Fake McFake',
+    label: 'EMI',
+    year: '2016',
+    albumArtUrl: 'assets/images/album_covers/03.png',
+    songs: 
+    [
+        { title: 'Fake song',           duration: '1:01' },
+        { title: 'Fake, fake, fake',    duration: '5:99' },
+        { title: 'Fake in your pocket', duration: '9:71' },
+        { title: 'Another fake song',   duration: '5:11' },
+        { title: 'Fake phone number',   duration: '3:17' }
+    ]
+};
+
 function createSongRow(songNumber, songName, songLength)
 {
     var template = 
@@ -47,18 +64,19 @@ function createSongRow(songNumber, songName, songLength)
     return template
 };
 
+
 function setCurrentAlbum(album)
 {
-    var albumTitle       = document.getElementsByClassName('album-view-title')[0],
-        albumArtist      = document.getElementsByClassName('album-view-artist')[0],
-        albumReleaseInfo = document.getElementsByClassName('album-view-release-info')[0],
-        albumImage       = document.getElementsByClassName('album-cover-art')[0],
-        albumSongList    = document.getElementsByClassName('album-view-song-list')[0];
+    var albumTitle       = document.getElementsByClassName("album-view-title")[0],
+        albumArtist      = document.getElementsByClassName("album-view-artist")[0],
+        albumReleaseInfo = document.getElementsByClassName("album-view-release-info")[0],
+        albumImage       = document.getElementsByClassName("album-cover-art")[0],
+        albumSongList    = document.getElementsByClassName("album-view-song-list")[0];
     
     albumTitle.firstChild.nodeValue       = album.title;
     albumArtist.firstChild.nodeValue      = album.artist;
     albumReleaseInfo.firstChild.nodeValue = album.year + " " + album.label;
-    albumImage.setAttribute('src', album.albumArtUrl)
+    albumImage.setAttribute("src", album.albumArtUrl)
     
     albumSongList.innerHTML = "";
     
@@ -68,7 +86,18 @@ function setCurrentAlbum(album)
     }  
 };
 
+
+var albumList = [albumPicasso, albumMarconi, albumFake];
+var albumIndex = 0;
+
 window.onload = function()
 {
-    setCurrentAlbum(albumMarconi);
+    setCurrentAlbum(albumPicasso);
 };
+
+
+document.getElementsByClassName("album-cover-art")[0].addEventListener("click", function()
+{
+    (albumIndex < albumList.length - 1) ? albumIndex++ : albumIndex = 0;
+    setCurrentAlbum(albumList[albumIndex]);                                                         
+});
