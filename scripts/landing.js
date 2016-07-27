@@ -1,44 +1,36 @@
-var points = document.getElementsByClassName('point');
 
-var animatePoints = function(points) {
+var animatePoints = function() {
 
     /* This script transitions the styles from those given in the .css 
     file to those specified here. */
 
-    function revealPoint(i) 
+    function revealPoint() 
     {
-        points[i].style.opacity         = 1;
-        points[i].style.transform       = "scaleX(1) translateY(0)";
-        points[i].style.msTransform     = "scaleX(1) translateY(0)";
-        points[i].style.WebkitTransform = "scaleX(1) translateY(0)";
+        $(this).css({opacity: 1, transform: "scaleX(1) translateY(0)"});
     };
     
-    for (var i = 0; i < points.length; i++)
-    {
-        revealPoint(i);
-    };
+    $.each($(".point"), revealPoint);
 };
 
-window.onload = function()
+$(window).load(function()
 {
     // Automatically animate on tall screens where .sellingPoints visible without scrolling
     
-    if(window.innerHeight > 950)
+    if($(window).height() > 950)
     {
-        animatePoints(points);
+        animatePoints();
     }
     
-    var sellingPoints  = document.getElementsByClassName('selling-points')[0];
-    var scrollDistance = sellingPoints.getBoundingClientRect().top - window.innerHeight + 150;
+    var scrollDistance = $(".sellingPoints").offset().top - $(window).height() + 200;
     
-    /* window.innerHeight is the distance to the fold. scrollDistance provides a measurement for 
-    triggering the animation when 150px of the .sellingPoints div is visible */
+    /* $(window).height is the distance to the fold. scrollDistance provides a measurement for 
+    triggering the animation when 200px of the .sellingPoints div is visible */
     
-    window.addEventListener("scroll", function(event)
+    $(window).scroll(function(event)
     {
-        if (document.documentElement.scrollTop || document.body.scrollTop >= scrollDistance)
+        if ($(window).scrollTop() >= scrollDistance)
         {
             animatePoints(points);
         }
     });
-};
+});
