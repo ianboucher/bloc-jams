@@ -1,4 +1,6 @@
-var collectionItemTemplate = 
+var buildCollectionItemTemplate = function()
+{
+    var template =
     '<div class="collection-album-container column fourth">'
     +   '<img src="assets/images/album_covers/01.png"/>'
     +   '<div class="collection-album-info caption">'
@@ -13,14 +15,19 @@ var collectionItemTemplate =
     +   '</div>'
     +'</div>'
     ;
+    
+    return $(template);
+};
 
-window.onload = function()
+$(window).load(function()
 {
-    var collectionContainer = document.getElementsByClassName('album-covers')[0];
-    collectionContainer.innerHTML = "";
+    $(".album-covers").empty();
     
     for (var i = 0; i < 12; i++)
     {
-        collectionContainer.innerHTML += collectionItemTemplate;
+        $(".album-covers").append(buildCollectionItemTemplate)
     }
-}
+});
+
+/* Above, I've used the jQuery selectors directly rather than assigning them to variables, 
+as was demonstrated in the tutorial. Are the disadvantages to this? */
