@@ -62,28 +62,22 @@ function createSongRow(songNumber, songName, songLength)
         +'</tr>'
         ;
     
-    return template
+    return $(template);
 };
 
 
 function setCurrentAlbum(album)
-{
-    var albumTitle       = document.getElementsByClassName("album-view-title")[0],
-        albumArtist      = document.getElementsByClassName("album-view-artist")[0],
-        albumReleaseInfo = document.getElementsByClassName("album-view-release-info")[0],
-        albumImage       = document.getElementsByClassName("album-cover-art")[0],
-        albumSongList    = document.getElementsByClassName("album-view-song-list")[0];
+{   
+    $(".album-view-title").text(album.title);
+    $(".album-view-artist").text(album.artist);
+    $(".album-view-release-info").text(album.year + " " + album.label);
+    $(".album-cover-art").attr("src", album.albumArtUrl);
     
-    albumTitle.firstChild.nodeValue       = album.title;
-    albumArtist.firstChild.nodeValue      = album.artist;
-    albumReleaseInfo.firstChild.nodeValue = album.year + " " + album.label;
-    albumImage.setAttribute("src", album.albumArtUrl);
-    
-    albumSongList.innerHTML = "";
+    $(".album-view-song-list").empty();
     
     for (var i = 0; i < album.songs.length; i++)
     {
-        albumSongList.innerHTML += createSongRow(i, album.songs[i].title, album.songs[i].duration);
+        $(".album-view-song-list").append(createSongRow(i + 1, album.songs[i].title, album.songs[i].duration )); 
     }  
 };
 
@@ -184,6 +178,7 @@ window.onload = function()
         }
                 
     });
+    
     
     // Add event listeners to each table row (song-list-item)
     
