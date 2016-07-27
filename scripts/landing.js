@@ -21,7 +21,7 @@ $(window).load(function()
         animatePoints();
     }
     
-    var scrollDistance = $(".sellingPoints").offset().top - $(window).height() + 200;
+    var scrollDistance = $(".selling-points").offset().top - $(window).height() + 200;
     
     /* $(window).height is the distance to the fold. scrollDistance provides a measurement for 
     triggering the animation when 200px of the .sellingPoints div is visible */
@@ -30,7 +30,7 @@ $(window).load(function()
     {
         if ($(window).scrollTop() >= scrollDistance)
         {
-            animatePoints(points);
+            animatePoints();
         }
     });
 });
