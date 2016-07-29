@@ -12,7 +12,7 @@ var animatePoints = function() {
     $.each($(".point"), revealPoint);
 };
 
-$(window).load(function()
+$(window).on("load resize", function()
 {
     // Automatically animate on tall screens where .sellingPoints visible without scrolling
     
