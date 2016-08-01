@@ -180,6 +180,25 @@ function previousSong()
 }
 
 
+function togglePlayFromPlayerBar()
+{
+    var $currentlyPlayingCell = getSongNumberCell(currentlyPlayingSongNumber);
+  
+    if (currentSoundFile.isPaused())
+    {
+        $currentlyPlayingCell.html(pauseButtonTemplate);
+        $playerBarMainControl.html(playerBarPauseButton);
+        currentSoundFile.play();
+    }
+    else if (currentSoundFile)
+    {
+        $currentlyPlayingCell.html(playButtonTemplate);
+        $playerBarMainControl.html(playerBarPlayButton);
+        currentSoundFile.pause();
+    }
+}
+
+
 function updatePlayerBarSong()
 {
     if (currentlyPlayingSongNumber)
@@ -203,6 +222,7 @@ var albumIndex                 = 0,
     playButtonTemplate         = '<a class="album-song-button"><span class="ion-play"></span></a>',
     playerBarPauseButton       = '<span class="ion-pause"></span>',
     playerBarPlayButton        = '<span class="ion-play"></span>',
+    $playerBarMainControl      = $(".main-controls .play-pause"),
     $nextButton                = $(".main-controls .next"),
     $previousButton            = $(".main-controls .previous");
 
@@ -212,6 +232,7 @@ $(document).ready(function()
     setCurrentAlbum(albumPicasso);
     $nextButton.click(nextSong);
     $previousButton.click(previousSong);
+    $playerBarMainControl.click(togglePlayFromPlayerBar)
     
     // Cycle through albums when user clicks on album cover
     $(".album-cover-art").click(function()
