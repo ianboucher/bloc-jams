@@ -114,36 +114,28 @@ function getSongNumberCell(number)
 function trackSongIndex(album, song)
 {
     return album.songs.indexOf(song);
-}
+}   
 
-
-function nextSong()
+function skipSong()
 {
-    var songIndex              = trackSongIndex(currentAlbum, currentSongFromAlbum),
-        nextSongIndex          = (songIndex + 1) % currentAlbum.songs.length,
-        $songNumberCell        = $('.song-item-number[data-song-number="' + (songIndex     + 1) + '"]'),
-        $nextSongNumberCell    = $('.song-item-number[data-song-number="' + (nextSongIndex + 1) + '"]');
-
+    var songIndex = trackSongIndex(currentAlbum, currentSongFromAlbum);
     
-    setSong(nextSongIndex + 1)
+    if (this.className === "next")
+    {
+        var newSongIndex = (songIndex + 1) % currentAlbum.songs.length;
+    }
+    else if (this.className === "previous")
+    {
+        var newSongIndex = (5 + (songIndex - 1) % currentAlbum.songs.length) % 5;
+    }
+        
+    var $songNumberCell    = $('.song-item-number[data-song-number="' + (songIndex    + 1) + '"]');
+    var $newSongNumberCell = $('.song-item-number[data-song-number="' + (newSongIndex + 1) + '"]');
+ 
+    setSong(newSongIndex + 1)
     
     $songNumberCell.html(songIndex + 1);
-    $nextSongNumberCell.html(pauseButtonTemplate);
-    updatePlayerBarSong();
-}
-
-
-function previousSong()
-{
-    var songIndex               = trackSongIndex(currentAlbum, currentSongFromAlbum),
-        previousSongIndex       = (5 + (songIndex - 1) % currentAlbum.songs.length) % 5, // I might be getting carried away!
-        $songNumberCell         = $('.song-item-number[data-song-number="' + (songIndex         + 1) + '"]'),
-        $previousSongNumberCell = $('.song-item-number[data-song-number="' + (previousSongIndex + 1) + '"]');
-
-    setSong(previousSongIndex + 1)
-    
-    $songNumberCell.html(songIndex + 1);
-    $previousSongNumberCell.html(pauseButtonTemplate);
+    $newSongNumberCell.html(pauseButtonTemplate);
     updatePlayerBarSong();
 }
 
@@ -176,8 +168,8 @@ var albumIndex                 = 0,
 $(document).ready(function()
 {
     setCurrentAlbum(albumPicasso);
-    $nextButton.click(nextSong);
-    $previousButton.click(previousSong);
+    $nextButton.click(skipSong);
+    $previousButton.click(skipSong);
     
     // Cycle through albums when user clicks on album cover
     $(".album-cover-art").click(function()
