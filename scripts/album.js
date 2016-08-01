@@ -4,7 +4,7 @@ function createSongRow(songNumber, songName, songLength)
           '<tr class="album-view-song-item">'
         +    '<td class="song-item-number" data-song-number="' + songNumber +'">'   + songNumber + '</td>'
         +    '<td class="song-item-title">'    + songName + '</td>'
-        +    '<td class="song-item-duration">' + songLength + '</td>'
+        +    '<td class="song-item-duration">' + filterTimeCode(songLength) + '</td>'
         + '</tr>';
     
     var $row = $(template);
@@ -127,8 +127,6 @@ function setSong(songNumber)
         formats: [ "mp3" ],
         preload: true
     });
-    
-//    setVolume(currentVolume);
 }
 
 
@@ -147,6 +145,31 @@ function setVolume(volume)
     {   
         currentSoundFile.setVolume(volume);
     }
+}
+
+
+function setCurrentTimeInPlayerBar(currentTime)
+{
+    $(".current-time").text(filterTimeCode(currentTime));
+}
+
+
+function setTotalTimeInPlayerBar(totalTime)
+{
+    $(".total-time").text(filterTimeCode(totalTime));
+}
+
+function filterTimeCode(timeInSeconds)
+{
+    var formattedTime = null;
+    var totalSeconds  = Math.floor(parseFloat(timeInSeconds));
+    var minutes      = Math.floor(totalSeconds / 60);
+    var seconds       = (totalSeconds % 60);
+    if (seconds < 10) { seconds = "0" + seconds };
+    
+    formattedTime = minutes + ":" + seconds;
+    
+    return formattedTime;
 }
 
 
@@ -212,6 +235,8 @@ function updatePlayerBarSong()
         $(".currently-playing .artist-name").text(currentAlbum.artist);
         $(".currently-playing .artist-song-mobile").text(currentAlbum.artist + " - " + currentSongFromAlbum.title);
         $(".main-controls .play-pause").html(playerBarPauseButton);
+        
+        setTotalTimeInPlayerBar(currentSongFromAlbum.duration)
     }
 }
 
@@ -292,7 +317,8 @@ function updateSeekBarWhileSongPlays()
             var seekBarFillRatio = this.getTime() / this.getDuration(); // getTime/getDuration = Buzz methods
             var $seekBar = $(".seek-control .seek-bar");
             
-            updateSeekPercentage($seekBar, seekBarFillRatio);    
+            updateSeekPercentage($seekBar, seekBarFillRatio);
+            setCurrentTimeInPlayerBar(this.getTime())
         });
     }
 }
